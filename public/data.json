@@ -1,0 +1,41 @@
+{
+  "generated": "2026-04-05",
+  "sources": ["claude", "codex"],
+  "models": {
+    "claude-sonnet-4-20250514": {
+      "stats": { "input": 1500000, "output": 80000, "cache_read": 12000000, "cache_write": 200000, "total": 13780000, "cost": 3.42, "msgs": 156 },
+      "sessions": {
+        "my-project|abc12345": {
+          "source": "claude",
+          "project": "my-project",
+          "sid": "abc12345",
+          "date": "2026-04-04",
+          "first_ts": "2026-04-04T10:00:00.000Z",
+          "stats": { "input": 500000, "output": 30000, "cache_read": 4000000, "cache_write": 50000, "total": 4580000, "cost": 1.14, "msgs": 52 },
+          "turns": [
+            { "user": "help me build a REST API", "time": "2026-04-04T10:00:00.000Z", "input": 12000, "output": 2000, "cache_read": 56000, "cache_write": 0, "total": 70000, "cost": 0.021 },
+            { "user": "add authentication middleware", "time": "2026-04-04T10:05:00.000Z", "input": 14000, "output": 1500, "cache_read": 70000, "cache_write": 0, "total": 85500, "cost": 0.025 }
+          ]
+        }
+      }
+    },
+    "gpt-5.4": {
+      "stats": { "input": 800000, "output": 40000, "cache_read": 6000000, "cache_write": 0, "total": 6840000, "cost": 2.60, "msgs": 89 },
+      "sessions": {
+        "my-app|def67890": {
+          "source": "codex",
+          "project": "my-app",
+          "sid": "def67890",
+          "date": "2026-04-03",
+          "first_ts": "2026-04-03T14:00:00.000Z",
+          "stats": { "input": 300000, "output": 15000, "cache_read": 2000000, "cache_write": 0, "total": 2315000, "cost": 0.88, "msgs": 30 },
+          "turns": [
+            { "user": "fix the login bug", "time": "2026-04-03T14:00:00.000Z", "input": 10000, "output": 500, "cache_read": 56000, "cache_write": 0, "total": 66500, "cost": 0.025 },
+            { "user": "now add tests", "time": "2026-04-03T14:08:00.000Z", "input": 12000, "output": 800, "cache_read": 68000, "cache_write": 0, "total": 80800, "cost": 0.030 }
+          ]
+        }
+      }
+    }
+  },
+  "grand_total": { "input": 2300000, "output": 120000, "cache_read": 18000000, "cache_write": 200000, "total": 20620000, "cost": 6.02, "msgs": 245 }
+}
