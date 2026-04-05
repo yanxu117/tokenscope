@@ -1,5 +1,5 @@
 {
-  "name": "tokenscope",
+  "name": "@arraystar/tokenscope",
   "version": "0.1.0",
   "description": "Token usage dashboard for Claude Code & Codex CLI — visualize your AI coding costs",
   "type": "module",
