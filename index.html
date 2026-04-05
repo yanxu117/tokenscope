@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TokenScope — Token Usage Dashboard for Claude Code & Codex CLI</title>
-  <meta name="description" content="Visualize your AI coding costs. Free, open-source dashboard that parses Claude Code and Codex CLI session data.">
+  <title>TokenScope — Claude Code & Codex CLI 的 Token 用量仪表盘</title>
+  <meta name="description" content="可视化你的 AI 编程成本。免费、开源，解析 Claude Code 和 Codex CLI 的会话数据。">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     :root{--bg:#0a0a0b;--surface:#141416;--border:#232328;--text:#e4e4e7;--dim:#8b8b96;--accent:#6366f1;--accent2:#818cf8;--green:#22c55e}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Noto Sans SC',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
     a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
     nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);background:rgba(10,10,11,.8);border-bottom:1px solid var(--border);padding:0 2rem}
     nav .i{max-width:72rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
     nav .logo{font-weight:700;font-size:1.1rem;letter-spacing:-.02em}nav .logo span{color:var(--accent2)}
-    nav .links{display:flex;gap:1.5rem;font-size:.875rem}nav .links a{color:var(--dim)}nav .links a:hover{color:var(--text);text-decoration:none}
+    nav .right{display:flex;align-items:center;gap:1.5rem;font-size:.875rem}
+    nav .right a{color:var(--dim)}nav .right a:hover{color:var(--text);text-decoration:none}
+    .lang-btn{background:none;border:1px solid var(--border);color:var(--dim);padding:.25rem .65rem;border-radius:.35rem;font-size:.75rem;cursor:pointer;transition:all .15s}
+    .lang-btn:hover{border-color:var(--dim);color:var(--text)}
     .hero{max-width:72rem;margin:0 auto;padding:6rem 2rem 4rem;text-align:center}
     .badge{display:inline-block;padding:.25rem .75rem;border:1px solid var(--border);border-radius:999px;font-size:.8rem;color:var(--dim);margin-bottom:1.5rem}
     .badge span{color:var(--green)}
     h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:1.25rem}
     h1 .d{color:var(--dim)}
-    .hero p{font-size:1.15rem;color:var(--dim);max-width:36rem;margin:0 auto 2.5rem}
+    .hero p{font-size:1.15rem;color:var(--dim);max-width:40rem;margin:0 auto 2.5rem}
     .cta{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
     .cta a{display:inline-flex;align-items:center;gap:.4rem;padding:.65rem 1.4rem;border-radius:.5rem;font-size:.9rem;font-weight:600;transition:all .15s}
     .cta-p{background:var(--accent);color:#fff}.cta-p:hover{background:var(--accent2);text-decoration:none}
@@ -49,31 +52,53 @@
   </style>
 </head>
 <body>
-  <nav><div class="i"><div class="logo">Token<span>Scope</span></div><div class="links"><a href="https://github.com/yanxu117/tokenscope">GitHub</a><a href="https://www.npmjs.com/package/@arraystar/tokenscope">npm</a></div></div></nav>
+  <nav><div class="i"><div class="logo">Token<span>Scope</span></div><div class="right"><a href="https://github.com/Singu-larity-ai/tokenscope">GitHub</a><a href="https://www.npmjs.com/package/@arraystar/tokenscope">npm</a><button class="lang-btn" onclick="toggleLang()">EN</button></div></div></nav>
+
   <section class="hero">
-    <div class="badge">Open Source &middot; Free &middot; <span>v0.1</span></div>
-    <h1>Know what your<br>AI coding <span class="d">actually costs</span></h1>
-    <p>TokenScope parses your Claude Code and Codex CLI session history, then visualizes token usage and estimated costs in an interactive dashboard.</p>
-    <div class="cta"><a class="cta-p" href="https://github.com/yanxu117/tokenscope">GitHub Repo</a><a class="cta-s" href="https://www.npmjs.com/package/@arraystar/tokenscope">npm Package</a></div>
+    <div class="badge" data-zh="开源 · 免费 · " data-en="Open Source · Free · "><span>v0.1</span></div>
+    <h1 data-zh="你的 AI 编程<br><span class='d'>到底花了多少</span>" data-en="Know what your<br>AI coding <span class='d'>actually costs</span>">你的 AI 编程<br><span class="d">到底花了多少</span></h1>
+    <p data-zh="TokenScope 解析你的 Claude Code 和 Codex CLI 会话历史，用交互式仪表盘可视化 Token 用量和预估费用。" data-en="TokenScope parses your Claude Code and Codex CLI session history, then visualizes token usage and estimated costs in an interactive dashboard.">TokenScope 解析你的 Claude Code 和 Codex CLI 会话历史，用交互式仪表盘可视化 Token 用量和预估费用。</p>
+    <div class="cta"><a class="cta-p" href="https://github.com/Singu-larity-ai/tokenscope" data-zh="GitHub 仓库" data-en="GitHub Repo">GitHub 仓库</a><a class="cta-s" href="https://www.npmjs.com/package/@arraystar/tokenscope" data-zh="npm 包" data-en="npm Package">npm 包</a></div>
   </section>
+
   <div class="ss-wrap"><div class="ss"><div class="ss-in"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div><div class="mock-cards"><div class="mock-card"><div class="mock-label">Total Tokens</div><div class="mock-value">1,814M</div></div><div class="mock-card"><div class="mock-label">Cache Read</div><div class="mock-value">455M</div></div><div class="mock-card"><div class="mock-label">Sessions</div><div class="mock-value">98</div></div><div class="mock-card"><div class="mock-label">Est. Cost</div><div class="mock-value">$1,021</div></div></div><div class="mock-chart"><div class="mock-bc" style="height:30%"></div><div class="mock-bc" style="height:55%"></div><div class="mock-bc" style="height:45%"></div><div class="mock-bc" style="height:80%"></div><div class="mock-bc" style="height:65%"></div><div class="mock-bc" style="height:90%"></div><div class="mock-bc" style="height:40%"></div><div class="mock-bc" style="height:70%"></div><div class="mock-bc" style="height:50%"></div><div class="mock-bc" style="height:35%"></div><div class="mock-bc" style="height:60%"></div><div class="mock-bc" style="height:85%"></div></div></div></div></div>
+
   <section class="features">
-    <h2>Everything you need to track</h2>
-    <p class="sub">No config, no API keys, no cloud. It reads your local session files.</p>
+    <h2 data-zh="你需要追踪的一切" data-en="Everything you need to track">你需要追踪的一切</h2>
+    <p class="sub" data-zh="无需配置、无需 API Key、不上云。直接读取本地会话文件。" data-en="No config, no API keys, no cloud. It reads your local session files.">无需配置、无需 API Key、不上云。直接读取本地会话文件。</p>
     <div class="grid">
-      <div class="card"><div class="icon">&#x1F4CA;</div><h3>Multi-Source</h3><p>Supports both Claude Code and Codex CLI. Auto-detects installed tools and parses all available session data.</p></div>
-      <div class="card"><div class="icon">&#x1F4B0;</div><h3>Cost Estimation</h3><p>Configurable pricing for 20+ models across Anthropic, OpenAI, Google, Zhipu, DeepSeek, and Mistral.</p></div>
-      <div class="card"><div class="icon">&#x1F50D;</div><h3>Per-Session Detail</h3><p>Drill into any session to see turn-by-turn token usage, timestamps, and costs.</p></div>
-      <div class="card"><div class="icon">&#x1F9E9;</div><h3>Skill Analysis</h3><p>See which Claude Code skills consume the most tokens. Identify expensive workflows at a glance.</p></div>
-      <div class="card"><div class="icon">&#x1F310;</div><h3>i18n</h3><p>Full Chinese and English UI. Toggle with one click.</p></div>
-      <div class="card"><div class="icon">&#x1F512;</div><h3>100% Local</h3><p>Your data never leaves your machine. Reads local JSONL files, serves dashboard on localhost.</p></div>
+      <div class="card"><div class="icon">&#x1F4CA;</div><h3 data-zh="多数据源" data-en="Multi-Source">多数据源</h3><p data-zh="同时支持 Claude Code 和 Codex CLI。自动检测已安装的工具并解析所有可用的会话数据。" data-en="Supports both Claude Code and Codex CLI. Auto-detects installed tools and parses all available session data.">同时支持 Claude Code 和 Codex CLI。自动检测已安装的工具并解析所有可用的会话数据。</p></div>
+      <div class="card"><div class="icon">&#x1F4B0;</div><h3 data-zh="费用估算" data-en="Cost Estimation">费用估算</h3><p data-zh="可配置 20+ 模型的定价，覆盖 Anthropic、OpenAI、Google、智谱、DeepSeek、Mistral 等。" data-en="Configurable pricing for 20+ models across Anthropic, OpenAI, Google, Zhipu, DeepSeek, and Mistral.">可配置 20+ 模型的定价，覆盖 Anthropic、OpenAI、Google、智谱、DeepSeek、Mistral 等。</p></div>
+      <div class="card"><div class="icon">&#x1F50D;</div><h3 data-zh="会话详情" data-en="Per-Session Detail">会话详情</h3><p data-zh="深入查看任意会话的逐轮 Token 用量、时间戳和费用明细。" data-en="Drill into any session to see turn-by-turn token usage, timestamps, and costs.">深入查看任意会话的逐轮 Token 用量、时间戳和费用明细。</p></div>
+      <div class="card"><div class="icon">&#x1F9E9;</div><h3 data-zh="技能分析" data-en="Skill Analysis">技能分析</h3><p data-zh="一眼看出哪些 Claude Code 技能最耗 Token，快速定位高成本工作流。" data-en="See which Claude Code skills consume the most tokens. Identify expensive workflows at a glance.">一眼看出哪些 Claude Code 技能最耗 Token，快速定位高成本工作流。</p></div>
+      <div class="card"><div class="icon">&#x1F310;</div><h3>中英双语</h3><p data-zh="完整的中英文界面切换，一键切换。" data-en="Full Chinese and English UI. Toggle with one click.">完整的中英文界面切换，一键切换。</p></div>
+      <div class="card"><div class="icon">&#x1F512;</div><h3 data-zh="纯本地运行" data-en="100% Local">纯本地运行</h3><p data-zh="数据不出本机。读取本地 JSONL 文件，在 localhost 上启动仪表盘。" data-en="Your data never leaves your machine. Reads local JSONL files, serves dashboard on localhost.">数据不出本机。读取本地 JSONL 文件，在 localhost 上启动仪表盘。</p></div>
     </div>
   </section>
+
   <section class="qs">
-    <h2>Get started in 30 seconds</h2>
-    <p class="sub">Clone, parse your data, open the dashboard.</p>
-    <div class="code"><span class="cm"># Clone</span><br><span class="cmd">git clone</span> https://github.com/yanxu117/tokenscope.git<br><span class="cmd">cd</span> tokenscope && <span class="cmd">npm install</span><br><br><span class="cm"># Parse your data</span><br><span class="cmd">npm run</span> parse<br><br><span class="cm"># Build &amp; open</span><br><span class="cmd">npm run</span> build && <span class="cmd">npm run</span> preview</div>
+    <h2 data-zh="30 秒上手" data-en="Get started in 30 seconds">30 秒上手</h2>
+    <p class="sub" data-zh="克隆、解析数据、打开仪表盘。" data-en="Clone, parse your data, open the dashboard.">克隆、解析数据、打开仪表盘。</p>
+    <div class="code"><span class="cm" data-zh="# 克隆" data-en="# Clone"># 克隆</span><br><span class="cmd">git clone</span> https://github.com/Singu-larity-ai/tokenscope.git<br><span class="cmd">cd</span> tokenscope && <span class="cmd">npm install</span><br><br><span class="cm" data-zh="# 解析你的数据" data-en="# Parse your data"># 解析你的数据</span><br><span class="cmd">npm run</span> parse<br><br><span class="cm" data-zh="# 构建并打开" data-en="# Build &amp; open"># 构建并打开</span><br><span class="cmd">npm run</span> build && <span class="cmd">npm run</span> preview</div>
   </section>
-  <footer>TokenScope &middot; MIT License &middot; <a href="https://github.com/yanxu117/tokenscope">GitHub</a> &middot; <a href="https://www.npmjs.com/package/@arraystar/tokenscope">npm</a></footer>
+
+  <footer>TokenScope · MIT License · <a href="https://github.com/Singu-larity-ai/tokenscope">GitHub</a> · <a href="https://www.npmjs.com/package/@arraystar/tokenscope">npm</a></footer>
+
+  <script>
+    let lang = 'zh';
+    function toggleLang() {
+      lang = lang === 'zh' ? 'en' : 'zh';
+      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      document.querySelector('.lang-btn').textContent = lang === 'zh' ? 'EN' : '中文';
+      document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+        const val = el.getAttribute('data-' + lang);
+        if (el.tagName === 'H1' || el.tagName === 'P' || el.tagName === 'SPAN' || el.tagName === 'DIV') {
+          el.innerHTML = val;
+        } else {
+          el.textContent = val;
+        }
+      });
+    }
+  </script>
 </body>
 </html>
